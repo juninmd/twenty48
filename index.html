@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>twenty48</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    font: 16px/1.4 ui-sans-serif, system-ui, sans-serif; background: #0b0f17; color: #e5e7eb; padding: 16px; user-select: none; }
+  h1 { margin: 0; font-size: 22px; letter-spacing: 1px; }
+  .top { display: flex; gap: 12px; align-items: center; width: 100%; max-width: 420px; }
+  .score { background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 8px 14px; font-weight: 700; }
+  .score small { display: block; font-weight: 400; color: #6b7280; font-size: 11px; }
+  button { margin-left: auto; background: #2563eb; border: 0; color: #fff; padding: 10px 16px; border-radius: 10px; font: inherit; font-weight: 600; cursor: pointer; }
+  #board { width: 100%; max-width: 420px; aspect-ratio: 1; background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 10px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; touch-action: none; }
+  .cell { border-radius: 8px; background: #0b0f17; display: grid; place-items: center; font-weight: 800; font-size: clamp(18px, 6vw, 34px); transition: transform .08s; }
+  .msg { min-height: 22px; color: #f59e0b; font-weight: 600; }
+  footer { color: #4b5563; font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>🧩 twenty48</h1>
+  <div class="top">
+    <div class="score">score<small>pontos</small><span id="score">0</span></div>
+    <div class="score">best<small>recorde</small><span id="best">0</span></div>
+    <button id="new">Novo jogo</button>
+  </div>
+  <div id="board"></div>
+  <div class="msg" id="msg"></div>
+  <footer>setas / WASD no teclado · deslize no touch</footer>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>
