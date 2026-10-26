@@ -13,7 +13,27 @@ const msgEl = document.getElementById("msg");
 
 let grid = emptyGrid(4);
 let score = 0;
-let best = Number(localStorage.getItem("twenty48-best") || 0);
+const BEST_KEY = "twenty48-best";
+
+// localStorage can throw (blocked storage) or hold garbage; never let that break the game.
+function loadBest() {
+  try {
+    const n = Number(localStorage.getItem(BEST_KEY));
+    return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function saveBest(value) {
+  try {
+    localStorage.setItem(BEST_KEY, String(value));
+  } catch {
+    // storage unavailable: the best score just won't persist
+  }
+}
+
+let best = loadBest();
 let over = false;
 
 function start() {
@@ -48,7 +68,7 @@ function doMove(dir) {
   score += res.gained;
   if (score > best) {
     best = score;
-    localStorage.setItem("twenty48-best", String(best));
+    saveBest(best);
   }
   if (grid.flat().includes(2048)) msgEl.textContent = "🎉 2048! continue jogando…";
   if (!hasMoves(grid)) {
@@ -63,7 +83,8 @@ const KEYS = {
   a: "left", d: "right", w: "up", s: "down",
 };
 window.addEventListener("keydown", (e) => {
-  const dir = KEYS[e.key];
+  if (e.ctrlKey || e.metaKey || e.altKey) return; // keep browser shortcuts (Ctrl+S, Cmd+W, ...)
+  const dir = KEYS[e.key.length === 1 ? e.key.toLowerCase() : e.key];
   if (dir) {
     e.preventDefault();
     doMove(dir);
